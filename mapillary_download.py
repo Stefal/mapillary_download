@@ -26,7 +26,7 @@ def parse_args(argv =None):
     parser.add_argument('--destination', type=str, default='data', help='Path destination for the images')
     parser.add_argument('--image_limit', type=int, default=None, help='How many images you want to download')
     parser.add_argument('--overwrite', default=False, action='store_true', help='overwrite existing images')
-    parser.add_argument("-v", "--version", action="version", version="release 1.3")
+    parser.add_argument("-v", "--version", action="version", version="release 1.4")
     args = parser.parse_args(argv)
     if args.sequence_ids is None and args.image_ids is None:
         parser.error("Please enter at least one sequence id or image id")
@@ -45,7 +45,7 @@ def get_single_image_data(image_id, mly_header):
     req_url = 'https://graph.mapillary.com/{}?fields=creator,thumb_original_url,altitude,make,model,camera_type,captured_at,compass_angle,geometry,exif_orientation,sequence'.format(image_id)
     r = session.get(req_url, headers=mly_header)
     data = r.json()
-    print(data)
+    #print(data)
     return data
 
 
