@@ -26,7 +26,7 @@ def parse_args(argv =None):
     parser.add_argument('--destination', type=str, default='data', help='Path destination for the images')
     parser.add_argument('--image_limit', type=int, default=None, help='How many images you want to download')
     parser.add_argument('--overwrite', default=False, action='store_true', help='overwrite existing images')
-    parser.add_argument("-v", "--version", action="version", version="release 1.5")
+    parser.add_argument("-v", "--version", action="version", version="release 1.6")
     args = parser.parse_args(argv)
     if args.sequence_ids is None and args.image_ids is None:
         parser.error("Please enter at least one sequence id or image id")
@@ -163,6 +163,8 @@ if __name__ == '__main__':
                     direction = image_data['compass_angle'],
                     altitude = image_data['altitude'],
             )
+            #print("metadata: ", img_metadata)
+            #print("path: ", image_data)
             image_exists = os.path.exists(path)
             if not args.overwrite and image_exists:
                 print("{} already exists. Skipping ".format(path))

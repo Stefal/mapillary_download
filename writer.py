@@ -47,8 +47,13 @@ class Writer():
         self.image.close()
 
     def apply(self) -> None:
-        self.image.modify_exif(self.updated_exif)
-        self.image.modify_xmp(self.updated_xmp)
+        try:
+            if self.updated_exif:
+                self.image.modify_exif(self.updated_exif)
+            if self.updated_xmp:
+                self.image.modify_xmp(self.updated_xmp)
+        except Exception as e:
+            print("exception \nexif: {}\nxmp: {}".format(self.updated_exif, self.updated_xmp))
 
     def close(self) -> None:
         self.image.close()
