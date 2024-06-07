@@ -19,17 +19,24 @@ retries_strategies = Retry(
 session.mount('https://', HTTPAdapter(max_retries=retries_strategies))
 
 def parse_args(argv =None):
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument('access_token', type=str, help='Your mapillary access token')
     parser.add_argument('--sequence_ids', type=str, nargs='*', help='The mapillary sequence id(s) to download')
     parser.add_argument('--image_ids', type=int, nargs='*', help='The mapillary image id(s) to get their sequence id(s)')
     parser.add_argument('--destination', type=str, default='data', help='Path destination for the images')
     parser.add_argument('--image_limit', type=int, default=None, help='How many images you want to download')
     parser.add_argument('--overwrite', default=False, action='store_true', help='overwrite existing images')
-    parser.add_argument("-v", "--version", action="version", version="release 1.6")
-    args = parser.parse_args(argv)
+    parser.add_argument("-v", "--version", action="version", version="release 1.7")
+    args, remaining_args = parser.parse_known_args(argv)
+    #args = parser.parse_args(argv)
     if args.sequence_ids is None and args.image_ids is None:
         parser.error("Please enter at least one sequence id or image id")
+    args.sequence_ids = [id.strip() for id in args.sequence_ids]
+    for unknown_arg in remaining_args:
+        if unknown_arg.startswith('-') and len(unknown_arg) > 18:
+            #this arg seems to be a sequence id starting with '-'. We add it to the list.
+            args.sequence_ids.append(unknown_arg.strip())
+    #print(args)
     return args
 
 def download(url, filepath, metadata=None):   
