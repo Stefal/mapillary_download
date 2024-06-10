@@ -33,10 +33,9 @@ def parse_args(argv =None):
         parser.error("Please enter at least one sequence id or image id")
     args.sequence_ids = [id.strip() for id in args.sequence_ids]
     for unknown_arg in remaining_args:
-        if unknown_arg.startswith('-') and len(unknown_arg) > 18:
-            #this arg seems to be a sequence id starting with '-'. We add it to the list.
+        if len(unknown_arg) > 18:
+            #this arg seems to be a sequence id.
             args.sequence_ids.append(unknown_arg.strip())
-    #print(args)
     return args
 
 def download(url, filepath, metadata=None):   
